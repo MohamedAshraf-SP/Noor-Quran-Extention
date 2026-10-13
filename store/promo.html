@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <title>promo</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@500;800&display=swap">
+  <style>
+    html, body { margin: 0; overflow: hidden; background: #06392a; }
+    .stage {
+      position: absolute; left: 0; top: 0; direction: rtl; font-family: 'Tajawal', sans-serif; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(232, 190, 92, .25), transparent 45%),
+        linear-gradient(135deg, #0f7a5a, #06392a);
+    }
+    img { border-radius: 22%; box-shadow: 0 10px 30px rgba(0,0,0,.3); flex: 0 0 auto; }
+    b { font-family: 'Amiri', serif; display: block; line-height: 1; }
+    .t { font-weight: 800; white-space: nowrap; }
+    .en { direction: ltr; text-align: right; opacity: .75; }
+    .small { width: 440px; height: 280px; gap: 22px; }
+    .small img { width: 104px; } .small b { font-size: 60px; } .small .t { font-size: 17px; margin-top: 8px; } .small .en { font-size: 12px; margin-top: 4px; }
+    .large { width: 1400px; height: 560px; gap: 70px; }
+    .large img { width: 220px; } .large b { font-size: 120px; } .large .t { font-size: 40px; margin-top: 14px; } .large .en { font-size: 26px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <img src="icon512.png" alt="">
+    <div>
+      <b>نور</b>
+      <div class="t" id="t"></div>
+      <div class="en">Quran • Azkar • Prayer Times & Adhan</div>
+    </div>
+  </div>
+  <script>
+    const size = new URLSearchParams(location.search).get('size') || 'small';
+    document.getElementById('stage').classList.add(size);
+    document.getElementById('t').textContent = size === 'small' ? 'القرآن • الأذكار • الصلاة والأذان' : 'القرآن • الأذكار • مواقيت الصلاة والأذان';
+  </script>
+</body>
+</html>

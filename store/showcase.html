@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>showcase</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;500;700;800&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; font-family: 'Tajawal', sans-serif; }
+    body {
+      background:
+        radial-gradient(circle at 85% 15%, rgba(232, 190, 92, .22), transparent 40%),
+        radial-gradient(circle at 10% 90%, rgba(255, 255, 255, .08), transparent 45%),
+        linear-gradient(135deg, #0f7a5a, #06392a);
+      color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 90px;
+    }
+    .copy { width: 560px; }
+    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 34px; }
+    .brand img { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+    .brand b { font-family: 'Amiri', serif; font-size: 44px; line-height: 1; }
+    .brand span { display: block; font-size: 16px; opacity: .8; margin-top: 4px; }
+    h1 { font-size: 50px; line-height: 1.35; margin: 0 0 18px; font-weight: 800; }
+    h1 em { font-style: normal; color: #f0c766; }
+    p { font-size: 22px; line-height: 1.7; opacity: .9; margin: 0 0 26px; }
+    .en { direction: ltr; text-align: right; font-size: 18px; opacity: .7; letter-spacing: .2px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chips span { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); padding: 7px 14px; border-radius: 30px; font-size: 16px; }
+    .device {
+      width: 462px; height: 682px; border-radius: 26px; overflow: hidden; flex: 0 0 auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 0 0 10px rgba(255,255,255,.08);
+      background: #0f1614;
+    }
+    .device.wide { width: 440px; height: 440px; }
+    iframe { border: 0; width: 420px; height: 620px; transform: scale(1.1); transform-origin: top right; display: block; }
+    .device.wide iframe { width: 400px; height: 400px; }
+  </style>
+</head>
+<body>
+  <div class="copy">
+    <div class="brand"><img src="icon512.png" alt=""><div><b>نور</b><span>القرآن والأذكار ومواقيت الصلاة</span></div></div>
+    <h1 id="title"></h1>
+    <p id="sub"></p>
+    <div class="chips" id="chips"></div>
+    <p class="en" id="en" style="margin-top:22px"></p>
+  </div>
+  <div class="device" id="device"></div>
+
+  <script type="module">
+    const q = new URLSearchParams(location.search);
+    document.getElementById('title').innerHTML = q.get('title') || '';
+    document.getElementById('sub').textContent = q.get('sub') || '';
+    document.getElementById('en').textContent = q.get('en') || '';
+    document.getElementById('chips').innerHTML = (q.get('chips') || '').split('|').filter(Boolean).map((c) => `<span>${c}</span>`).join('');
+
+    localStorage.setItem('mock-sync', JSON.stringify({ settings: {
+      lat: 30.0444, lng: 31.2357, cityName: 'القاهرة', method: 'egypt', theme: 'dark', fontSize: 24,
+    } }));
+    const day = (o) => { const d = new Date(); d.setDate(d.getDate() - o); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+    const start = day(8);
+    localStorage.setItem('mock-local', JSON.stringify({
+      khatma: { active: true, days: 30, startDate: start, pagesDone: 176, completed: 2,
+        log: { [day(8)]: 21, [day(7)]: 21, [day(6)]: 25, [day(5)]: 18, [day(4)]: 21, [day(3)]: 22, [day(2)]: 21, [day(1)]: 20, [day(0)]: 7 } },
+      lastRead: { surah: 18, ayah: 10 },
+      favRadios: [],
+    }));
+
+    const device = document.getElementById('device');
+    if (q.get('kind') === 'reminder') {
+      device.classList.add('wide');
+      const res = await fetch('https://api.alquran.cloud/v1/ayah/13:28/editions/quran-uthmani,ar.muyassar').then((r) => r.json());
+      const [a, t] = res.data;
+      localStorage.setItem('payload', JSON.stringify({ mode: 'reminder', autoClose: 30, content: {
+        type: 'ayah', title: '📖 آية من كتاب الله', text: a.text, note: t.text, ref: 'سورة الرعد — آية ٢٨', audio: 'x', surah: 13, ayah: 28,
+      } }));
+      device.innerHTML = '<iframe src="/reminder.html"></iframe>';
+    } else {
+      device.innerHTML = `<iframe src="/popup.html#${q.get('route') || 'home'}"></iframe>`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# build output
+*.zip
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/

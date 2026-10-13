@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>نور — القرآن والأذكار</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <img src="icons/icon48.png" alt="">
+        <div>
+          <h1>نور</h1>
+          <small id="hijri"></small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" title="الوضع الليلي">🌓</button>
+        <button class="icon-btn" id="expandBtn" title="فتح في صفحة كاملة">⤢</button>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button data-tab="home">🏠<span>الرئيسية</span></button>
+      <button data-tab="quran">📖<span>المصحف</span></button>
+      <button data-tab="khatma">📗<span>الختمة</span></button>
+      <button data-tab="listen">🎧<span>القراء</span></button>
+      <button data-tab="radio">📻<span>الإذاعات</span></button>
+      <button data-tab="tv">📺<span>القنوات</span></button>
+      <button data-tab="azkar">📿<span>الأذكار</span></button>
+      <button data-tab="hadith">📜<span>الحديث</span></button>
+      <button data-tab="prayer">🕌<span>الصلاة</span></button>
+      <button data-tab="tasbeeh">🔢<span>السبحة</span></button>
+      <button data-tab="settings">⚙️<span>الإعدادات</span></button>
+    </nav>
+
+    <main id="view"></main>
+
+    <footer class="player hidden" id="player">
+      <div class="p-info">
+        <strong id="pTitle"></strong>
+        <small id="pSub"></small>
+      </div>
+      <input type="range" id="pSeek" min="0" max="100" value="0" step="0.1">
+      <div class="p-controls">
+        <button class="icon-btn" id="pRepeat" title="التكرار">🔁</button>
+        <button class="icon-btn" id="pPrev" title="السابق">⏭</button>
+        <button class="icon-btn big" id="pToggle" title="تشغيل/إيقاف">▶</button>
+        <button class="icon-btn" id="pNext" title="التالي">⏮</button>
+        <span class="p-time" id="pTime">0:00</span>
+        <input type="range" id="pVol" min="0" max="1" step="0.05" value="1" title="الصوت">
+        <button class="icon-btn" id="pClose" title="إغلاق">✕</button>
+      </div>
+    </footer>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="lib/hls.min.js"></script>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
